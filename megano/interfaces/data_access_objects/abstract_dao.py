@@ -14,9 +14,8 @@ class AbstractModelDAO(abc.ABC):
             data.pop('_state')
             yield self._meta.entity(**data)
 
-    def fetch_all(self) -> List[AbstractEntity]:
+    def fetch_all(self) -> List:
         return list(entity for entity in self._orm_to_entity())
-
 
     def update(self, *args, many=False, **kwargs) -> None:
         pass

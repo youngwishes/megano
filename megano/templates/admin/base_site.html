@@ -1,0 +1,38 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'assets/css/admin.css' %}">
+    <link href="{% static 'favicon.ico' %}" rel="shortcut icon">
+{% endblock %}
+
+{% block title %}
+    {% if subtitle %}
+        {{ subtitle }} |
+    {% endif %}{{ title }} | {{ site_title|default:_('Django site admin')}}
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+{% endblock %}
+
+
+{% block userlinks %}
+    <nav class="row-block row-block_right Header-menu">
+        <div class="menuModal" id="navigate">
+            <ul class="breadcrumbs">
+                <li class="breadcrumbs-item"><a class="link_dotted" href="{% url 'main-page' %}">Back to the site</a>
+                </li>
+                <li class="breadcrumbs-item"><a class="link_dotted" href="{% url 'global_settings' %}">Global
+                    settings</a>
+                </li>
+                <li class="breadcrumbs-item"><a class="link_dotted" href="{% url 'admin:password_change' %}">Change
+                    password</a>
+                </li>
+                <li class="breadcrumbs-item"><a class="link_dotted" href="{% url 'logout' %}">Logout</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
