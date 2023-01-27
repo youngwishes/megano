@@ -1,0 +1,4 @@
+{
+    "delivery_prices_difference": 500,
+    "is_payment_available": "Y",
+    "categories": 

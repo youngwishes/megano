@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block middle %}
+<div class="Middle Middle_top">
+    <div class="Middle-top">
+        <div class="wrap">
+            <div class="Middle-header">
+                <h1 class="Middle-title">Профиль
+                </h1>
+                <ul class="breadcrumbs Middle-breadcrumbs">
+                    <li class="breadcrumbs-item"><a href="{% url 'main-page' %}">home</a>
+                    </li>
+                    <li class="breadcrumbs-item breadcrumbs-item_current"><span>Профиль</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="Section Section_column Section_columnLeft">
+        <div class="wrap">
+            <div class="Section-column">
+                <div class="Section-columnSection">
+                    <header class="Section-header">
+                        <strong class="Section-title">Навигация
+                        </strong>
+                    </header>
+                    <div class="Section-columnContent">
+                        <div class="NavigateProfile">
+                            <ul class="menu menu_vt">
+                                <li class="menu-item"><a class="menu-link" href="account.html">Личный кабинет</a>
+                                </li>
+                                <li class="menu-item_ACTIVE menu-item"><a class="menu-link"
+                                                                          href="profile.html">Профиль</a>
+                                </li>
+                                <li class="menu-item"><a class="menu-link" href="historyorder.html">История
+                                    заказов</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Section-content">
+                <div class="Profile">
+                    <form class="form Profile-form" method="post" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="row">
+                            <div class="row-block">
+                                <label class="form-label" for="avatar">{{ profile_form.avatar.label }}
+                                </label>
+                                {% if not profile_form.avatar %}
+                                <div class="Profile-avatar Profile-avatar_noimg">
+                                    <label class="Profile-fileLabel" for="avatar">Выберите аватар
+                                    </label>
+                                    {{ profile_form.avatar }}
+                                </div>
+                                {% else %}
+                                <div class="Profile-avatar">
+                                    <div class="Profile-img"><img src="{{ avatar.url }}"
+                                                                  alt="Выберите аватар">
+                                    </div>
+                                    <label class="Profile-fileLabel" for="avatar">Выберите аватар
+                                    </label>
+                                    <input class="Profile-file form-input" id="avatar" name="avatar"
+                                           type="file"/>
+                                </div>
+                                {% endif %}
+
+                                <div class="form-group">
+                                    <label class="form-label" for="{{ user_form.email.name }}">
+                                        {{ user_form.email.label }}
+                                    </label>
+                                    {{ user_form.email }}
+                                    <div class="form-input_error">
+                                        {{ user_form.email.errors }}
+                                    </div>
+                                </div>
+                                <div class="password-reset-link">
+                                    <a class="link menu-link password-reset-link"
+                                       href="{% url 'password_change' %}">Сменить пароль</a>
+                                </div>
+                            </div>
+
+                            <div class="row-block">
+                                {% for field in profile_form %}
+                                <div class="form-group">
+                                    {% if field.name != 'avatar' %}
+                                    <label class="form-label"
+                                           for="{{ field.name }}">{{ field.label }}
+                                    </label>
+                                    {{ field }}
+                                    <div class="form-input_error">
+                                        {{ field.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+
+                                {% for field in user_form %}
+                                <div class="form-group">
+                                    {% if field.name != 'email' %}
+                                    <label class="form-label"
+                                           for="{{ field.name }}">{{ field.label }}
+                                    </label>
+                                    {{ field }}
+                                    <div class="form-input_error">
+                                        {{ field.errors }}
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group">
+                                    <div class="Profile-btn">
+                                        <button class="btn btn_success" type="submit">Сохранить
+                                        </button>
+                                    </div>
+                                </div>
+                                {% if request.method == 'POST' and not user_form.errors and not profile_form.errors %}
+                                <div class="Profile-success">Профиль успешно сохранен
+                                </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
