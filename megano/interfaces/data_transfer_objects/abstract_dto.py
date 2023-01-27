@@ -1,14 +1,16 @@
 from dataclasses import dataclass, asdict, astuple
 import abc
 
+
 @dataclass
 class AbstractEntity(abc.ABC):
-    """Data transfer object abtract class."""
+    """Data transfer object abstract class."""
     id: int
-    
+    _state: str
+
     def get_as_dict(self):
         return asdict(self)
-    
+
     def get_as_list(self):
         return list(astuple(self))
 

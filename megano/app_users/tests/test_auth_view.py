@@ -9,7 +9,6 @@ class TestUserAuthView(TestInitialUserDataMixin, TestCase):
         self.url = reverse('login')
         self.redirect_url = reverse('profile')
 
-
     def test_login_not_registered_user(self):
         username = "Test"
         password = "test_password"

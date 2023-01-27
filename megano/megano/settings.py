@@ -61,6 +61,7 @@ INSTALLED_APPS = [
 
     # Custom apps
     "phonenumber_field",
+    'uuslug',
 ]
 
 MIDDLEWARE = [
@@ -178,8 +179,13 @@ MEDIA_URL = '/media/'
 # Email/SMTP settings
 
 EMAIL_HOST = "smtp.yandex.ru"
+
 EMAIL_PORT = 465
+
 EMAIL_HOST_USER = "megano.django@yandex.ru"
+
 EMAIL_HOST_PASSWORD = "bkltlupadffqwges"
+
 EMAIL_USE_TLS = False
+
 EMAIL_USE_SSL = True

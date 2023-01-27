@@ -8,7 +8,7 @@ CategoryCommercial = get_model('catalog', 'CategoryCommercial')
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'description', 'is_public', 'get_html_photo']
+    list_display = ['id', 'name', 'description', 'is_public', 'get_html_photo', 'slug']
     fields = ['name', 'description', 'image', 'is_public']
     readonly_fields = ("get_html_photo",)
 

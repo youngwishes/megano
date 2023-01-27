@@ -1,9 +1,9 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _, get_language
-from django.utils.text import slugify
 from django.core.cache import cache
 from django.core.validators import MinValueValidator, MaxValueValidator
+from uuslug import uuslug
 
 __all__ = ["AbstractCategory", "AbstractCommercialCategory"]
 
@@ -38,12 +38,12 @@ class AbstractCategory(models.Model):
         return slug
 
     def generate_slug(self):
-        return slugify(self.name)
+        return uuslug(self.name, instance=self)
 
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = self.generate_slug()
-        return super().save(args, kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

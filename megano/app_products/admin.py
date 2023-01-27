@@ -1,19 +1,31 @@
 from django.contrib import admin
-from megano.core.loading import get_model
+from django.utils.safestring import mark_safe
+from .inlines import *
 
-Product = get_model('product', 'Product')
-ProductCommercial = get_model('product', 'ProductCommercial')
+
+class ProductImageAdmin(admin.ModelAdmin):
+    list_display = ['id', 'image', 'product']
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'short_description',]
-    fields = ['name', 'description', 'short_description',]
+    list_display = ['id', 'name', 'short_description', 'get_html_photo']
+    fields = ['name', 'description', 'short_description', 'specifications']
 
+    inlines = [
+        ProductCommercialInline,
+        ProductImageInline,
+        CategoriesInline,
+    ]
 
-class ProductCommercialAdmin(admin.ModelAdmin):
-    list_display = ['vendor_code', 'price', 'count', 'is_active', 'product']
-    fields = ['price', 'count', 'is_active']
+    @admin.decorators.display(description="Photo")
+    def get_html_photo(self, instance):
+        if instance.images:
+            return mark_safe(
+                f"<a href='{instance.images.first().image.url}'>"
+                f"<img src='{instance.images.first().image.url}' width=75>"
+                f"</a>"
+            )
 
 
 admin.site.register(Product, ProductAdmin)
-admin.site.register(ProductCommercial, ProductCommercialAdmin)
+admin.site.register(ProductImage, ProductImageAdmin)

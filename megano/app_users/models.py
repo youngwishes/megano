@@ -29,7 +29,9 @@ if not is_model_registered('user', 'Profile'):
         )
 
     class Profile(AbstractProfile):
-        avatar = models.FileField(_('profile photo'), upload_to=user_media_path, blank=True, default="users/default.png")
+        avatar = models.FileField(
+            _('profile photo'), upload_to=user_media_path, blank=True, default="users/default.png"
+        )
 
 
     __all__.append("Profile")

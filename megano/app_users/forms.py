@@ -116,6 +116,16 @@ class ProfileForm(forms.ModelForm):
             'avatar': _('Avatar')
         }
 
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data['phone_number']
+        profiles = Profile.objects.filter(phone_number=phone_number)
+        if not profiles.exists():
+            return phone_number
+        elif profiles.count() == 1:
+            if self.instance == profiles[0]:
+                return phone_number
+        raise ValidationError("Phone number already exists")
+
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
@@ -131,6 +141,13 @@ class UserProfileForm(forms.ModelForm):
             'last_name': _('Last name'),
             'email': _('E-mail')
         }
+
+    def clean_email(self):
+        if 'email' in self.changed_data:
+            email = self.cleaned_data['email']
+            if User.objects.filter(email=email).exists():
+                raise ValidationError(_("User with this email already exists."), code='invalid')
+            return email
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):

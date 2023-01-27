@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import render
 from django.views import View
 from .forms import GlobalSettingsForm
-from .config import global_settings
+from megano.core.config import global_settings
 from megano.core.loading import get_model
 
 
@@ -24,10 +24,12 @@ class GlobalSiteSettings(UserPassesTestMixin, View):
 
     def post(self, request):
         form = GlobalSettingsForm(request.POST)
+
         if form.is_valid():
             global_settings.set_config(form.cleaned_data)
         else:
             print(form.errors)
+
 
         context = {
             "form": form

@@ -48,34 +48,35 @@ class UserLogoutView(LogoutView):
 
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request):
-        user, profile, avatar = self.get_account_info(request)
+        user = request.user
 
-        profile_form = ProfileForm(instance=profile)
+        profile_form = ProfileForm(instance=user.profile)
         user_form = UserProfileForm(instance=user)
 
         context = {
             "profile_form": profile_form,
             "user_form": user_form,
-            "avatar": avatar
+            "avatar": user.profile.avatar
         }
-
         return render(request, 'app_users/profile.html', context)
 
     def post(self, request):
-        user, profile, avatar = self.get_account_info(request)
+        user = request.user
 
-        profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
         user_form = UserProfileForm(request.POST, instance=user)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            if profile_form.has_changed():
+                profile_form.save()
+            if user_form.has_changed():
+                user_form.save()
 
         context = {
             "profile_form": profile_form,
             "user_form": user_form,
-            "avatar": avatar,
+            "avatar": user.profile.avatar,
         }
-
-        is_valid = all([user_form.is_valid(), profile_form.is_valid()])
-        if is_valid:
-            profile_form.save() and user_form.save()
 
         return render(request, "app_users/profile.html", context)
 

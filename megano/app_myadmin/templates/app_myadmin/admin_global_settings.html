@@ -4,55 +4,53 @@
 
 
 {% block extrastyle %}
-    <link rel="stylesheet" href="{% static 'assets/css/admin.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/basic.css' %}">
-    <link href="{% static 'favicon.ico' %}" rel="shortcut icon">
+<link rel="stylesheet" href="{% static 'assets/css/admin.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/basic.css' %}">
+<link href="{% static 'favicon.ico' %}" rel="shortcut icon">
 {% endblock %}
 
 {% block title %}
-    {% if subtitle %}
-        {{ subtitle }} |
-    {% endif %}{{ title }} {{ site_title|default:_('Megano GS')}}
+{% if subtitle %}
+{{ subtitle }} |
+{% endif %}{{ title }} {{ site_title|default:_('Megano GS')}}
 {% endblock %}
 
 {% block branding %}
-    <h1 id="site-name">
-        <a href="{% url 'admin:index' %}">{{ site_header|default:_('Megano administration') }}</a>
-    </h1>
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">{{ site_header|default:_('Megano administration') }}</a>
+</h1>
 {% endblock %}
 
 {% block content %}
-    <h1>
-        Глобальные настройки сайта
-    </h1>
+<h1>
+    Глобальные настройки сайта
+</h1>
 
-    <div class="row row_alignCenter">
-        <div class="form-error">{{ form.non_field_errors }}</div>
-    </div>
-    <form method="post"> {% csrf_token %}
+<div class="row row_alignCenter">
+    <div class="form-error">{{ form.non_field_errors }}</div>
+</div>
+<form method="post"> {% csrf_token %}
 
-        {% for field in form %}
+    {% for field in form %}
 
-            <div class="form-group">
-                <label class="form-label">{{ field.label_tag }}
-                </label>
-                {{ field }}
-                <span class="form-label">
+    <div class="form-group">
+        <label class="form-label">{{ field.label_tag }}
+        </label>
+        {{ field }}
+        <span class="form-label">
                         {{ field.help_text }}
 </span>
-
-
-                <div class="form-error form-input_error">
-                    {{ field.errors }}
-                </div>
-            </div>
-        {% endfor %}
-
-        <div class="form-group">
-            <button class="btn btn_success" type="submit">Accept
-            </button>
+        <div class="form-error form-input_error">
+            {{ field.errors }}
         </div>
+    </div>
+    {% endfor %}
 
-    </form>
+    <div class="form-group">
+        <button class="btn btn_success" type="submit">Accept
+        </button>
+    </div>
+
+</form>
 
 {% endblock %}

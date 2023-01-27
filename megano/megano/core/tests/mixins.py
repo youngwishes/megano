@@ -7,6 +7,8 @@ NOT_ROOT_USERNAME = "danil"
 
 
 class TestInitialUserDataMixin:
+    model = User
+
     @classmethod
     def setUpTestData(cls):
         User.objects.create(
@@ -20,7 +22,6 @@ class TestInitialUserDataMixin:
             password="1234",
 
         )
-
 
     @classmethod
     def get_root_user(cls):

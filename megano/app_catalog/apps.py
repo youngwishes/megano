@@ -7,4 +7,3 @@ class AppCatalogConfig(AppConfig):
     name = 'app_catalog'
     label = 'catalog'
     verbose_name = _("Catalog")
-

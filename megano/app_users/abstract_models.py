@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 class AbstractProfile(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE)
-    phone_number = PhoneNumberField(blank=True)
+    phone_number = PhoneNumberField(blank=True, region="RU", max_length=12)
     bank_card = models.CharField(_("bank card number"), max_length=16, blank=True)
 
     class Meta:
