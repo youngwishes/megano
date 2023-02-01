@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .inlines import *
+from django_json_widget.widgets import JSONEditorWidget
+from django.db.models import JSONField
 
 
 class ProductImageAdmin(admin.ModelAdmin):
@@ -10,6 +12,9 @@ class ProductImageAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'short_description', 'get_html_photo']
     fields = ['name', 'description', 'short_description', 'specifications']
+    formfield_overrides = {
+        JSONField: {"widget": JSONEditorWidget}
+    }
 
     inlines = [
         ProductCommercialInline,

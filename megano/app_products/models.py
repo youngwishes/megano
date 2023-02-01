@@ -1,7 +1,6 @@
 from uuslug import uuslug
 from megano.core.loading import is_model_registered
 from .abstract_models import *
-from django.urls import reverse
 from django.core.cache import cache
 
 __all__ = []
@@ -37,9 +36,6 @@ if not is_model_registered("product", "Product"):
 
 if not is_model_registered("product", "ProductCommercial"):
     class ProductCommercial(AbstractProductCommercialClass):
-        def generate_slug(self):
-            self.vendor_code = self.generate_vendor_code()
-            return uuslug(self.vendor_code, instance=self)
 
         def get_product_name(self):
             return self.product.get_name()
@@ -47,18 +43,19 @@ if not is_model_registered("product", "ProductCommercial"):
         def generate_vendor_code(self):
             return uuslug(
                 "mg-%s-%s" % (self.get_product_name(), self.pk) if not self.vendor_code
-                else self.vendor_code, instance=self
+                else self.vendor_code, instance=self, slug_field="vendor_code"
             )
 
         def save(self, *args, **kwargs):
-            if not self.slug:
-                self.slug = self.generate_slug()
-            return super(AbstractProductCommercialClass, self).save(args, kwargs)
+            if not self.vendor_code:
+                self.vendor_code = self.generate_vendor_code()
+            return super(AbstractProductCommercialClass, self).save(*args, **kwargs)
 
         def get_absolute_url(self):
-            return reverse('product', kwargs={
-                "product_slug": self.slug
-            })
+            from django.urls import reverse
+            return reverse('product', kwargs={"vendor_code": self.vendor_code})
 
+        def get_first_img(self):
+            return self.product.images.first()
 
     __all__.append("ProductCommercial")

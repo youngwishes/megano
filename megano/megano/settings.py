@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     # Custom apps
     "phonenumber_field",
     'uuslug',
+    'django_json_widget',
 ]
 
 MIDDLEWARE = [

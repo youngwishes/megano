@@ -6,6 +6,7 @@ from megano.core.tests.mixins import TestInitialUserDataMixin
 
 Category = get_model('catalog', 'Category')
 Product = get_model('product', 'Product')
+ProductCommercial = get_model('product', 'ProductCommercial')
 
 
 class TestCatalogView(TestInitialUserDataMixin, TestCase):
@@ -29,12 +30,21 @@ class TestCatalogView(TestInitialUserDataMixin, TestCase):
                 is_public=True,
             )
 
-            category.products.create(
+            product = category.products.create(
                 name=f'Product {i}',
                 description=f'Description {i}',
                 short_description='',
-                specifications=None,
+                specifications={"colour": "blue"},
             )
+
+            ProductCommercial.objects.create(
+                price=100,
+                count=10,
+                is_active=True,
+                product=product,
+            )
+
+            product.save()
 
         super().setUpTestData()
 
@@ -70,13 +80,9 @@ class TestCatalogView(TestInitialUserDataMixin, TestCase):
 
     def test_catalog_search_with_get_params(self):
         for category in Category.objects.all():
-            slug, cat_id = category.slug, category.id
+            slug = category.slug
 
-            get_param = f'?s={slug}'
-
-            url = f'{self.catalog_search_url}{get_param}'
-            response = self.client.get(url)
-
+            response = self.client.get(self.catalog_search_url, data={'s': slug})
             product_that_must_contains = Product.objects.get(categories=category)
             products_not_contains = Product.objects.filter(~Q(categories=category))
 
