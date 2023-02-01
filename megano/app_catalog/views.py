@@ -4,7 +4,7 @@ from megano.core.loading import get_model
 from megano.core.config import global_settings
 
 Category = get_model('catalog', 'Category')
-Product = get_model('product', 'Product')
+ProductCommercial = get_model('product', 'ProductCommercial')
 
 
 class CatalogView(View):
@@ -21,14 +21,13 @@ class CatalogView(View):
 class CatalogSearch(View):
     def get(self, request):
         get_data = request.GET.get('s')
-
         if get_data:
-            products = Product.objects.filter(categories__slug=get_data)
+            commercial_products = ProductCommercial.objects.filter(product__categories__slug=get_data)
         else:
-            products = []
+            commercial_products = []
 
         context = {
-            'products': products
+            'commercial_products': commercial_products
         }
 
         return render(request, 'app_catalog/catalog.html', context)

@@ -91,14 +91,14 @@ Catalog
                     </div>
                 </div>
                 <div class="Cards">
-                    {% for product in products %}
-                    <div class="Card"><a class="Card-picture" href="#"><img
-                            src="{{ product.images.first.image.url }}" alt="card.jpg"/></a>
+                    {% for c_product in commercial_products %}
+                    <div class="Card"><a class="Card-picture" href="{{ c_product.get_absolute_url }}"><img
+                            src="{{ c_product.get_first_img.url }}" alt="card.jpg"/></a>
                         <div class="Card-content">
-                            <strong class="Card-title"><a href="product.html"> {{ product.name }} </a>
+                            <strong class="Card-title"><a href="product.html"> {{ c_product.get_product_name }}</a>
                             </strong>
                             <div class="Card-description">
-                                <div class="Card-cost"><span class="Card-price">${{ product.commercial.price }}</span>
+                                <div class="Card-cost"><span class="Card-price">${{ c_product.price }}</span>
                                 </div>
                                 <div class="Card-category">Games / xbox
                                 </div>

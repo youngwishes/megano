@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -7,6 +8,10 @@ class AbstractImageModel(models.Model):
     product = models.ForeignKey(
         'product.Product', verbose_name=_("product_image"), on_delete=models.CASCADE, related_name='images',
     )
+
+    @property
+    def url(self):
+        return f'{settings.MEDIA_URL}{self.image.name}'
 
     class Meta:
         abstract = True
@@ -21,7 +26,7 @@ class AbstractProductClass(models.Model):
     short_description = models.CharField("short description", max_length=255, blank=True)
     categories = models.ManyToManyField("catalog.Category", related_name="products")
     data = models.JSONField(
-        _("the product specifications"), null=True, name="specifications",
+        _("the product specifications"), name="specifications",
     )
 
     class Meta:
@@ -47,10 +52,8 @@ class AbstractProductCommercialClass(models.Model):
         help_text="Show if product is active and available to search."
     )
 
-    slug = models.SlugField(_("slug"), db_index=True, unique=True)
-
     highlights = models.ManyToManyField(
-        "catalog.CategoryCommercial", related_name="products",
+        "catalog.CategoryCommercial", related_name="products", blank=True
     )
 
     class Meta:
