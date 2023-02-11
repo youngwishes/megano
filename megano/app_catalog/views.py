@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from django.views import View, generic
+from django.views import View
 from megano.core.loading import get_model
 from megano.core.config import global_settings
+from megano.core.utils import get_cleaned_data_from_post_data
 
 Category = get_model('catalog', 'Category')
-ProductCommercial = get_model('product', 'ProductCommercial')
+Product = get_model('product', 'Product')
 
 
 class CatalogView(View):
@@ -20,14 +21,22 @@ class CatalogView(View):
 
 class CatalogSearch(View):
     def get(self, request):
-        get_data = request.GET.get('s')
-        if get_data:
-            commercial_products = ProductCommercial.objects.filter(product__categories__slug=get_data)
+        category_slug = request.GET.get('s')
+        if category_slug:
+            products = Product.objects.filter(categories__slug=category_slug)
         else:
-            commercial_products = []
+            products = []
 
         context = {
-            'commercial_products': commercial_products
+            'products': products
         }
+
+        return render(request, 'app_catalog/catalog.html', context)
+
+    def post(self, request):
+        category_slug = request.GET.get('s')
+        cleaned_data = get_cleaned_data_from_post_data(request.POST)
+        products = Product.objects.catalog_filter(cleaned_data).filter(categories__slug=category_slug)
+        context = {'products': products}
 
         return render(request, 'app_catalog/catalog.html', context)

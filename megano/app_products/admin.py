@@ -5,6 +5,11 @@ from django_json_widget.widgets import JSONEditorWidget
 from django.db.models import JSONField
 
 
+class ProductTagAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name']
+    fields = ('name',)
+
+
 class ProductImageAdmin(admin.ModelAdmin):
     list_display = ['id', 'image', 'product']
 
@@ -20,6 +25,7 @@ class ProductAdmin(admin.ModelAdmin):
         ProductCommercialInline,
         ProductImageInline,
         CategoriesInline,
+        ProductTagInline,
     ]
 
     @admin.decorators.display(description="Photo")
@@ -34,3 +40,4 @@ class ProductAdmin(admin.ModelAdmin):
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductImage, ProductImageAdmin)
+admin.site.register(ProductTag, ProductTagAdmin)
