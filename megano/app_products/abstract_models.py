@@ -1,6 +1,20 @@
-from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from .managers import ProductCommercialManager, ProductManager
+
+
+class AbstractProductTag(models.Model):
+    name = models.CharField(_("tag"), max_length=32, db_index=True, unique=True)
+    products = models.ManyToManyField('product.Product', verbose_name=_('products'), related_name='tags')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        abstract = True
+        verbose_name = 'product tag'
+        verbose_name_plural = 'product tags'
+        app_label = 'product'
 
 
 class AbstractImageModel(models.Model):
@@ -8,10 +22,6 @@ class AbstractImageModel(models.Model):
     product = models.ForeignKey(
         'product.Product', verbose_name=_("product_image"), on_delete=models.CASCADE, related_name='images',
     )
-
-    @property
-    def url(self):
-        return f'{settings.MEDIA_URL}{self.image.name}'
 
     class Meta:
         abstract = True
@@ -29,6 +39,10 @@ class AbstractProductClass(models.Model):
         _("the product specifications"), name="specifications",
     )
 
+    objects = ProductManager()
+
+    vendor_code = models.CharField(_("vendor code"), db_index=True, unique=True, max_length=512)
+
     class Meta:
         abstract = True
         verbose_name = _("Product")
@@ -38,7 +52,6 @@ class AbstractProductClass(models.Model):
 
 
 class AbstractProductCommercialClass(models.Model):
-    vendor_code = models.CharField(_("vendor code"), db_index=True, unique=True, max_length=512)
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2)
     count = models.IntegerField(verbose_name=_("left in stock"))
     product = models.OneToOneField(
@@ -55,6 +68,8 @@ class AbstractProductCommercialClass(models.Model):
     highlights = models.ManyToManyField(
         "catalog.CategoryCommercial", related_name="products", blank=True
     )
+
+    objects = ProductCommercialManager()
 
     class Meta:
         abstract = True

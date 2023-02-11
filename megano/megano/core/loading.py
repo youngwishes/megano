@@ -19,6 +19,7 @@ def get_model(app_label, model_name):
     except AppRegistryNotReady:
         if django_apps.apps_ready and django_apps.models_ready:
             app_config = django_apps.get_app_config(app_label)
+            print(app_config)
             import_module('%s.%s' % (app_config.name, MODELS_MODULE_NAME))
             return django_apps.get_registered_model(app_label, model_name)
         else:

@@ -30,19 +30,20 @@ Catalog
                         </strong>
                     </header>
                     <div class="Section-columnContent">
-                        <form class="form" action="#" method="post">
+                        <form class="form" action="{% url 'catalog-search' %}?s={{ request.GET.s }}" method="post"> {% csrf_token %}
                             <div class="form-group">
                                 <div class="range Section-columnRange">
                                     <input class="range-line" id="price" name="price" type="text" data-type="double"
-                                           data-min="7" data-max="50" data-from="7" data-to="27"/>
+                                           data-min="100" data-max="500000"  data-from="10000" data-to="1000000"/>
                                     <div class="range-price">Price:&#32;
                                         <div class="rangePrice">
+                                            <input type="submit">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input class="form-input form-input_full" id="title" name="title" type="text"
+                                <input class="form-input form-input_full" id="name" name="name" type="text"
                                        placeholder="Название"/>
                             </div>
                             <div class="form-group">
@@ -50,16 +51,19 @@ Catalog
                             </div>
                             <div class="form-group">
                                 <label class="toggle">
-                                    <input type="checkbox"/><span class="toggle-box"></span><span class="toggle-text">Только товары в наличии</span>
+                                    <input value="True" name="in_stock" id="in_stock" type="checkbox"/><span class="toggle-box"></span>
+                                    <span class="toggle-text">Только товары в наличии</span>
                                 </label>
                             </div>
                             <div class="form-group">
                                 <label class="toggle">
-                                    <input type="checkbox"/><span class="toggle-box"></span><span class="toggle-text">С бесплатной доставкой</span>
+                                    <input value="True" name="delivery" id="delivery" type="checkbox"/><span class="toggle-box"></span>
+                                    <span class="toggle-text">С бесплатной доставкой</span>
                                 </label>
                             </div>
                             <div class="form-group">
-                                <div class="buttons"><a class="btn btn_square btn_dark btn_narrow" href="#">Filter</a>
+                                <div class="buttons"><input value="Filter" type="submit"
+                                                            class="btn btn_square btn_dark btn_narrow">
                                 </div>
                             </div>
                         </form>
@@ -91,16 +95,16 @@ Catalog
                     </div>
                 </div>
                 <div class="Cards">
-                    {% for c_product in commercial_products %}
-                    <div class="Card"><a class="Card-picture" href="{{ c_product.get_absolute_url }}"><img
-                            src="{{ c_product.get_first_img.url }}" alt="card.jpg"/></a>
+                    {% for product in products %}
+                    <div class="Card"><a class="Card-picture" href="{{ product.get_absolute_url }}"><img
+                            src="{{ product.images.first.url }}" alt="card.jpg"/></a>
                         <div class="Card-content">
-                            <strong class="Card-title"><a href="product.html"> {{ c_product.get_product_name }}</a>
+                            <strong class="Card-title"><a href="product.html"> {{ product.name }}</a>
                             </strong>
                             <div class="Card-description">
-                                <div class="Card-cost"><span class="Card-price">${{ c_product.price }}</span>
+                                <div class="Card-cost"><span class="Card-price">{{ product.commercial.price }} ₽</span>
                                 </div>
-                                <div class="Card-category">Games / xbox
+                                <div class="Card-category"> {% for tag in product.tags.all %} {{ tag }} {% endfor %}
                                 </div>
                                 <div class="Card-hover"><a class="Card-btn" href="#"><img
                                         src="{% static 'assets/img/icons/card/cart.svg' %}" alt="cart.svg"/></a>
