@@ -2,34 +2,27 @@ from django.db import models
 
 
 class ProductQuerySet(models.QuerySet):
-    def price_in_range(self, **kwargs):
+
+    def price_range(self, **kwargs):
         price_from = kwargs['price_from']
         price_to = kwargs['price_to']
 
-        return self.filter(commercial__price__range=[price_from, price_to])
+        if price_to and price_from:
+            return self.filter(commercial__price__range=[price_from, price_to])
 
-    def name_filter(self, **kwargs):
-        name = kwargs['name']
-        return self.filter(name__istartswith=name) | \
-            self.filter(name__iendswith=name) | \
-            self.filter(name__contains=name)
-
-    def in_stock(self):
-        return self.filter(commercial__count__gt=0)
-
-
-class ProductManager(models.Manager):
-    def get_queryset(self):
-        return ProductQuerySet(self.model)
+        return self
 
     def get_names(self, **kwargs):
-        return self.get_queryset().name_filter(**kwargs)
+        name = kwargs['name']
+        queryset = self.filter(name__istartswith=name) | self.filter(name__iendswith=name)
 
-    def price_range(self, **kwargs):
-        return self.get_queryset().price_in_range(**kwargs)
+        if len(name) > 2:
+            queryset = queryset | self.filter(name__icontains=name)
+
+        return queryset
 
     def in_stock(self, **kwargs):
-        return self.get_queryset().in_stock()
+        return self.filter(commercial__count__gt=0)
 
     def catalog_filter(self, params: dict):
         queryset = None
@@ -37,12 +30,17 @@ class ProductManager(models.Manager):
         for key, value in params.items():
             if hasattr(self, key):
                 attr = getattr(self, key)
-                if not queryset:
+                if queryset is None:
                     queryset = attr(**value)
                 else:
-                    queryset.intersection(attr(**value))
+                    queryset = queryset & attr(**value)
 
         return queryset
+
+
+class ProductManager(models.Manager):
+    def get_queryset(self):
+        return ProductQuerySet(self.model)
 
 
 class ProductCommercialQuerySet(models.QuerySet):

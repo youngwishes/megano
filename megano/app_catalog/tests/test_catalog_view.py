@@ -46,7 +46,7 @@ class TestCatalogView(TestInitialUserDataMixin, TestCase):
 
             product.save()
 
-        super().setUpTestData()
+        cls.set_up_user_data()
 
     def test_catalog_view_access(self):
         response = self.client.get(self.catalog_url)

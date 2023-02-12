@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.views import View
 from megano.core.loading import get_model
@@ -20,6 +21,7 @@ class CatalogView(View):
 
 
 class CatalogSearch(View):
+
     def get(self, request):
         category_slug = request.GET.get('s')
         if category_slug:
@@ -35,8 +37,28 @@ class CatalogSearch(View):
 
     def post(self, request):
         category_slug = request.GET.get('s')
+
+        print(request.POST)
+
         cleaned_data = get_cleaned_data_from_post_data(request.POST)
-        products = Product.objects.catalog_filter(cleaned_data).filter(categories__slug=category_slug)
-        context = {'products': products}
+        products = Product.objects.filter(categories__slug=category_slug).catalog_filter(cleaned_data)
+
+        if cleaned_data.get('price_range'):
+            price_from = cleaned_data.get('price_range').get('price_from')
+            price_to = cleaned_data.get('price_range').get('price_to')
+        else:
+            price_from = 100
+            price_to = 500_000
+
+        in_stock = cleaned_data.get('in_stock')
+        name = cleaned_data.get('name')
+
+        context = {
+            'products': products,
+            'name': name,
+            'price_from': price_from,
+            'in_stock': in_stock,
+            'price_to': price_to,
+        }
 
         return render(request, 'app_catalog/catalog.html', context)

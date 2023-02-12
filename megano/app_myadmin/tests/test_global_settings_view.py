@@ -8,6 +8,10 @@ Category = get_model('catalog', 'Category')
 
 
 class TestGlobalSettingsViewAuth(TestInitialUserDataMixin, TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.set_up_user_data()
+
     def test_global_settings_view_not_login_user(self):
         url = reverse('global_settings')
         response = self.client.get(url)
@@ -32,6 +36,9 @@ class TestGlobalSettingsViewAuth(TestInitialUserDataMixin, TestCase):
 
 
 class TestGlobalSettingsViewForm(TestInitialUserDataMixin, TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.set_up_user_data()
 
     def setUp(self) -> None:
         username, password = self.get_root_user()

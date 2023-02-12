@@ -1,8 +1,8 @@
 def get_cleaned_data_from_post_data(post_data):
     """
-    Названия ключей в очищенном словаре должны соответствовать названиям методам внутри класса ProductManager
+    Названия ключей в очищенном словаре должны соответствовать названиям методам внутри класса ProductQuerySet
     Если поле имеет булевый тип, в качестве ключа необходимо присвоить название поля (key), в качестве значения
-     - пустой словарь
+     - словарь вида { ключ: True }
     """
     cleaned_data = {}
 
@@ -14,6 +14,6 @@ def get_cleaned_data_from_post_data(post_data):
             if value:
                 cleaned_data['get_names'] = {'name': value}
         else:
-            cleaned_data[key] = {}
+            cleaned_data[key] = {key: True}
 
     return cleaned_data

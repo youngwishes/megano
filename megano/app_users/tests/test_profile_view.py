@@ -7,6 +7,10 @@ Profile = get_model('user', 'Profile')
 
 
 class TestUserProfileView(TestInitialUserDataMixin, TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.set_up_user_data()
+
     def setUp(self) -> None:
         self.url = reverse('profile')
         self.login_basic_user()
@@ -53,7 +57,7 @@ class TestUserProfileView(TestInitialUserDataMixin, TestCase):
 
     def test_add_phone_number_if_exists(self):
         username, _ = self.get_root_user()
-        user = self.model.objects.get(username=username)
+        user = self.User.objects.get(username=username)
 
         user.profile.phone_number = "+79092981182"
         user.profile.save()
@@ -67,7 +71,7 @@ class TestUserProfileView(TestInitialUserDataMixin, TestCase):
     def test_change_phone_number_to_current(self):
         username, password = self.get_basic_user()
 
-        user = self.model.objects.get(username=username)
+        user = self.User.objects.get(username=username)
 
         user.profile.phone_number = "+79092981182"
         user.profile.save()
@@ -81,7 +85,7 @@ class TestUserProfileView(TestInitialUserDataMixin, TestCase):
         self.assertContains(response, 'Профиль успешно сохранен')
 
     def add_some_another_user(self, mail):
-        self.model.objects.create(
+        self.User.objects.create(
             username='Test',
             password='12345',
             email=mail,

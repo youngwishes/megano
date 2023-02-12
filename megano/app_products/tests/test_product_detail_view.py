@@ -1,9 +1,7 @@
-import os
-import random
 from django.test import TestCase
-from django.conf import settings
-
 from megano.core.loading import get_model
+from megano.core.tests.mixins import TestProductsDataMixin
+
 
 Product = get_model('product', 'Product')
 ProductCommercial = get_model('product', 'ProductCommercial')
@@ -11,40 +9,7 @@ ProductImage = get_model('product', 'ProductImage')
 Category = get_model('catalog', 'Category')
 
 
-class TestProductDetailView(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        images_dir = os.path.join(settings.BASE_DIR, 'media', 'products')
-        images = os.listdir(images_dir)
-
-        for i in range(1, 3):
-            random_img = random.choice(images)
-            product = Product.objects.create(
-                name=f'Название № {i}',
-                description=f'Идеальный товар для вашего пользования № {i}',
-                short_description=f'Короткое описание № {i}',
-                specifications=[
-                    {'Основные характеристики': {
-                        'цвет': f'зелёный {i}',
-                        'бренд': f'apple {i}',
-                    }},
-                    {'Технические характеристики': {
-                        'экран': f'oled {i}',
-                        'аккумулятор': f'аккум № {i} '
-                    }}
-                ],
-            )
-
-            product.images.create(image=random_img)
-
-            ProductCommercial.objects.create(
-                price=100,
-                count=10,
-                is_active=True,
-                product=product,
-            )
-
-            product.save()
+class TestProductDetailView(TestProductsDataMixin, TestCase):
 
     def test_status_code_is_200(self):
         for p in Product.objects.all():
