@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _, get_language
+from django.utils import timezone
 from django.core.cache import cache
 from django.core.validators import MinValueValidator, MaxValueValidator
 from uuslug import uuslug
@@ -10,10 +11,8 @@ __all__ = ["AbstractCategory", "AbstractCommercialCategory"]
 
 class AbstractCategory(models.Model):
     name = models.CharField(_("name"), max_length=255, db_index=True, unique=True)
-    description = models.TextField(_("description"), blank=True)
     image = models.ImageField(_("image"), upload_to='categories', blank=True)
     slug = models.SlugField(_("slug"), max_length=255, db_index=True)
-
     is_public = models.BooleanField(
         _("is public"),
         default=True,

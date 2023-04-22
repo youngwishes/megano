@@ -4,6 +4,9 @@ from django.test import TestCase
 
 
 class TestUserAuthView(TestInitialUserDataMixin, TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.set_up_user_data()
 
     def setUp(self) -> None:
         self.url = reverse('login')

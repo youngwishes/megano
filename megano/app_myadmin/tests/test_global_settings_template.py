@@ -3,8 +3,11 @@ from django.urls import reverse
 from megano.core.tests.mixins import TestInitialUserDataMixin
 
 
-
 class TestGlobalSettingsTemplate(TestInitialUserDataMixin, TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.set_up_user_data()
+
     def test_global_settings_template_if_login_not_superuser(self):
         url = reverse('global_settings')
         username, password = self.get_basic_user()

@@ -25,7 +25,6 @@ class TestCatalogView(TestInitialUserDataMixin, TestCase):
         for i in range(1, 6):
             category = Category.objects.create(
                 name=f'Category name {i}',
-                description=f'Category description {i}',
                 image=b'',
                 is_public=True,
             )
@@ -46,7 +45,7 @@ class TestCatalogView(TestInitialUserDataMixin, TestCase):
 
             product.save()
 
-        super().setUpTestData()
+        cls.set_up_user_data()
 
     def test_catalog_view_access(self):
         response = self.client.get(self.catalog_url)

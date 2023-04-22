@@ -2,117 +2,117 @@
 {% load static %}
 
 {% block header %}
-    <header class="Header">
-        <div class="ControlPanel">
-            <div class="wrap">
-                <div class="row ControlPanel-row">
-                    <div class="row-block">
-                        <div class="row ControlPanel-rowSplit">
-                            <div class="row-block"><a class="ControlPanel-title" href="#">Free Delivery</a>
-                            </div>
-                            <div class="row-block hide_700"><span class="ControlPanel-title">Follow Us</span>
-                                <ul class="menu menu_img menu_smallImg ControlPanel-menu">
-                                    <li class="menu-item"><a class="menu-link" href="#"><img
-                                            src=" {% static 'assets/img/icons/socialHeader/fb.svg' %} "
-                                            alt="fb.svg"/></a>
-                                    </li>
-                                    <li class="menu-item"><a class="menu-link" href="#"><img
-                                            src=" {% static 'assets/img/icons/socialHeader/tw.svg' %} "
-                                            alt="tw.svg"/></a>
-                                    </li>
-                                    <li class="menu-item"><a class="menu-link" href="#"><img
-                                            src=" {% static 'assets/img/icons/socialHeader/in.svg' %} "
-                                            alt="in.svg"/></a>
-                                    </li>
-                                    <li class="menu-item"><a class="menu-link" href="#"><img
-                                            src=" {% static 'assets/img/icons/socialHeader/pt.svg' %} "
-                                            alt="pt.svg"/></a>
-                                    </li>
-                                    <li class="menu-item"><a class="menu-link" href="#"><img
-                                            src=" {% static 'assets/img/icons/socialHeader/mail.svg' %} "
-                                            alt="mail.svg"/></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <nav class="row-block">
-                        <div class="row ControlPanel-rowSplit">
-                            {% if user.is_authenticated %}
-                                <div class="row-block">
-                                <a class="ControlPanel-title" href="{% url 'logout' %}">Logout</a>
-                                <div class="row-block">
-                                <a class="ControlPanel-title" href="{% url 'profile' %}">/Profile</a>
-                            {% else %}
-                                <div class="row-block"><a class="ControlPanel-title" href="{% url 'login' %}">Login/</a>
-                                <div class="row-block">
-                                <a class="ControlPanel-title" href="{% url 'register' %}">Register</a>
-                            {% endif %}
-                            </div>
-                            </div>
-                    </nav>
-                </div>
+<header class="Header">
+  <div class="ControlPanel">
+    <div class="wrap">
+      <div class="row ControlPanel-row">
+        <div class="row-block">
+          <div class="row ControlPanel-rowSplit">
+            <div class="row-block"><a class="ControlPanel-title" href="#">Free Delivery</a>
             </div>
+            <div class="row-block hide_700"><span class="ControlPanel-title">Follow Us</span>
+              <ul class="menu menu_img menu_smallImg ControlPanel-menu">
+                <li class="menu-item"><a class="menu-link" href="#"><img
+                        src=" {% static 'assets/img/icons/socialHeader/fb.svg' %} "
+                        alt="fb.svg"/></a>
+                </li>
+                <li class="menu-item"><a class="menu-link" href="#"><img
+                        src=" {% static 'assets/img/icons/socialHeader/tw.svg' %} "
+                        alt="tw.svg"/></a>
+                </li>
+                <li class="menu-item"><a class="menu-link" href="#"><img
+                        src=" {% static 'assets/img/icons/socialHeader/in.svg' %} "
+                        alt="in.svg"/></a>
+                </li>
+                <li class="menu-item"><a class="menu-link" href="#"><img
+                        src=" {% static 'assets/img/icons/socialHeader/pt.svg' %} "
+                        alt="pt.svg"/></a>
+                </li>
+                <li class="menu-item"><a class="menu-link" href="#"><img
+                        src=" {% static 'assets/img/icons/socialHeader/mail.svg' %} "
+                        alt="mail.svg"/></a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <div class="wrap">
-            <div class="row Header-rowMain">
-                <div class="row row_verticalCenter">
-                    <a class="logo" href="{% url 'main-page' %}">
-                        <img class="logo-image" src="{% static 'assets/img/logo.png' %}"
-                             alt="logo.png"/></a>
+        <nav class="row-block">
+          <div class="row ControlPanel-rowSplit">
+            {% if user.is_authenticated %}
+            <div class="row-block">
+              <a class="ControlPanel-title" href="{% url 'logout' %}">Logout</a>
+              <div class="row-block">
+                <a class="ControlPanel-title" href="{% url 'profile' %}">/Profile</a>
+                {% else %}
+                <div class="row-block"><a class="ControlPanel-title" href="{% url 'login' %}">Login/</a>
+                  <div class="row-block">
+                    <a class="ControlPanel-title" href="{% url 'register' %}">Register</a>
+                    {% endif %}
+                  </div>
                 </div>
-            </div>
-            <div class="Middle Middle-breadcrumbs">
-                <ul class="breadcrumbs">
-                    <li class="breadcrumbs-item"><a href={% url 'main-page' %}>home</a>
-                    </li>
-                    <li class="breadcrumbs-item"><span>Регистрация</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </header>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="row Header-rowMain">
+      <div class="row row_verticalCenter">
+        <a class="logo" href="{% url 'main-page' %}">
+          <img class="logo-image" src="{% static 'assets/img/logo.png' %}"
+               alt="logo.png"/></a>
+      </div>
+    </div>
+    <div class="Middle Middle-breadcrumbs">
+      <ul class="breadcrumbs">
+        <li class="breadcrumbs-item"><a href={% url 'main-page' %}>home</a>
+        </li>
+        <li class="breadcrumbs-item"><span>Регистрация</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
 {% endblock %}
 
 {% block title %}
-    Регистрация
+Регистрация
 {% endblock %}
 
 {% block middle %}
-    <div class="Middle">
-    <div class="wrap">
-        <div class="Section">
-            <div class="form-error">{{ form.non_field_errors }}</div>
-            <form method="post"> {% csrf_token %}
-                <div class="row">
-                    <div class="row-block">
-                        {% for field in form %}
-                            <div class="form-group form-group_center">
-                                <label class="form-label">{{ field.label_tag }}
-                                </label>
-                                <div class="row">
-                                {{ field }}
-                                    </div>
-                                <div class="form-error form-input_error">
-                                    {{ field.errors }}
-                                </div>
-                            </div>
+<div class="Middle">
+  <div class="wrap">
+    <div class="Section">
+      <div class="form-error">{{ form.non_field_errors }}</div>
+      <form method="post"> {% csrf_token %}
+        <div class="row">
+          <div class="row-block">
+            {% for field in form %}
+            <div class="form-group form-group_center">
+              <label class="form-label">{{ field.label_tag }}
+              </label>
+              <div class="row">
+                {{ field }}
+              </div>
+              <div class="form-error form-input_error">
+                {{ field.errors }}
+              </div>
+            </div>
 
-                        {% endfor %}
+            {% endfor %}
 
-                        <div class="form-group form-group_center">
-                            <button class="btn btn_success" type="submit">Войти
-                            </button>
-                        </div>
-                        <div class="form-group form-group_center">
-                            <a class="password-reset-link" href="{% url 'login' %}">
-                                Уже есть аккаунт?</a>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <div class="form-group form-group_center">
+              <button class="btn btn_success" type="submit">Войти
+              </button>
+            </div>
+            <div class="form-group form-group_center">
+              <a class="password-reset-link" href="{% url 'login' %}">
+                Уже есть аккаунт?</a>
+            </div>
+          </div>
         </div>
+      </form>
     </div>
+  </div>
 </div>
 
 

@@ -7,126 +7,133 @@ Catalog
 
 {% block middle %}
 <div class="Middle Middle_top">
-    <div class="Middle-top">
-        <div class="wrap">
-            <div class="Middle-header">
-                <h1 class="Middle-title">Catalog Megano
-                </h1>
-                <ul class="breadcrumbs Middle-breadcrumbs">
-                    <li class="breadcrumbs-item"><a href="{% url 'main-page' %}">home</a>
-                    </li>
-                    <li class="breadcrumbs-item breadcrumbs-item_current"><span>Catalog</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
+  <div class="Middle-top">
+    <div class="wrap">
+      <div class="Middle-header">
+        <h1 class="Middle-title">Catalog Megano
+        </h1>
+        <ul class="breadcrumbs Middle-breadcrumbs">
+          <li class="breadcrumbs-item"><a href="{% url 'main-page' %}">home</a>
+          </li>
+          <li class="breadcrumbs-item breadcrumbs-item_current"><span>Catalog</span>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="Section Section_column Section_columnLeft">
-        <div class="wrap">
-            <div class="Section-column">
-                <div class="Section-columnSection">
-                    <header class="Section-header">
-                        <strong class="Section-title">Filter
-                        </strong>
-                    </header>
-                    <div class="Section-columnContent">
-                        <form class="form" action="{% url 'catalog-search' %}?s={{ request.GET.s }}" method="post"> {% csrf_token %}
-                            <div class="form-group">
-                                <div class="range Section-columnRange">
-                                    <input class="range-line" id="price" name="price" type="text" data-type="double"
-                                           data-min="100" data-max="500000"  data-from="10000" data-to="1000000"/>
-                                    <div class="range-price">Price:&#32;
-                                        <div class="rangePrice">
-                                            <input type="submit">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-input form-input_full" id="name" name="name" type="text"
-                                       placeholder="Название"/>
-                            </div>
-                            <div class="form-group">
-                                <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
-                            </div>
-                            <div class="form-group">
-                                <label class="toggle">
-                                    <input value="True" name="in_stock" id="in_stock" type="checkbox"/><span class="toggle-box"></span>
-                                    <span class="toggle-text">Только товары в наличии</span>
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label class="toggle">
-                                    <input value="True" name="delivery" id="delivery" type="checkbox"/><span class="toggle-box"></span>
-                                    <span class="toggle-text">С бесплатной доставкой</span>
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <div class="buttons"><input value="Filter" type="submit"
-                                                            class="btn btn_square btn_dark btn_narrow">
-                                </div>
-                            </div>
-                        </form>
+  </div>
+  <div class="Section Section_column Section_columnLeft">
+    <div class="wrap">
+      <div class="Section-column">
+        <div class="Section-columnSection">
+          <header class="Section-header">
+            <strong class="Section-title">Filter
+            </strong>
+          </header>
+          <div class="Section-columnContent">
+            <form class="form" action="{% url 'catalog-search' %}?s={{ request.GET.s }}" method="post"> {% csrf_token %}
+              <div class="form-group">
+                <div class="range Section-columnRange">
+                  <input class="range-line" id="price" name="price" type="text" data-type="double"
+                         data-min="1000" data-max="100000"
+                         data-from="{% if price_from %} {{ price_from }} {% else %} 1000 {% endif %}"
+                         data-to="{% if price_to %} {{ price_to }} {% else %} 100000 {% endif %}"/>
+                  <div class="range-price">Price:&#32;
+                    <div class="rangePrice">
+                      <input type="submit">
                     </div>
+                  </div>
                 </div>
-                <div class="Section-columnSection">
-                    <header class="Section-header">
-                        <strong class="Section-title">Popular tags
-                        </strong>
-                    </header>
-                    <div class="Section-columnContent">
-                        <div class="buttons"><a class="btn btn_default btn_sm" href="#">Video</a><a
-                                class="btn btn_default btn_sm" href="#">Development</a><a class="btn btn_default btn_sm"
-                                                                                          href="#">Gaming</a><a
-                                class="btn btn_default btn_sm" href="#">Asus</a><a class="btn btn_default btn_sm"
-                                                                                   href="#">Development</a><a
-                                class="btn btn_default btn_sm" href="#">Video</a>
-                        </div>
-                    </div>
+              </div>
+              <div class="form-group">
+                <input class="form-input form-input_full" value="{% if name %}{{ name }}{% endif %}" id="name"
+                       name="name" type="text"
+                       placeholder="Название"/>
+              </div>
+              <div class="form-group">
+                <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
+              </div>
+              <div class="form-group">
+                <label class="toggle">
+                  <input value="True" name="in_stock" id="in_stock" type="checkbox"
+                         {% if in_stock %} checked {% endif %}/>
+                  <span class="toggle-box"></span>
+                  <span class="toggle-text">Только товары в наличии</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label class="toggle">
+                  <input value="True" name="delivery" id="delivery" type="checkbox"/><span class="toggle-box"></span>
+                  <span class="toggle-text">С бесплатной доставкой</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <div class="buttons"><input value="Filter" type="submit"
+                                            class="btn btn_square btn_dark btn_narrow">
                 </div>
-            </div>
-            <div class="Section-content">
-                <div class="Sort">
-                    <div class="Sort-title">Сортировать по:
-                    </div>
-                    <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec" href="#">Популярности</a><a
-                            class="Sort-sortBy" href="#">Цене</a><a class="Sort-sortBy" href="#">Отзывам</a><a
-                            class="Sort-sortBy Sort-sortBy_inc" href="#">Новизне</a>
-                    </div>
-                </div>
-                <div class="Cards">
-                    {% for product in products %}
-                    <div class="Card"><a class="Card-picture" href="{{ product.get_absolute_url }}"><img
-                            src="{{ product.images.first.url }}" alt="card.jpg"/></a>
-                        <div class="Card-content">
-                            <strong class="Card-title"><a href="product.html"> {{ product.name }}</a>
-                            </strong>
-                            <div class="Card-description">
-                                <div class="Card-cost"><span class="Card-price">{{ product.commercial.price }} ₽</span>
-                                </div>
-                                <div class="Card-category"> {% for tag in product.tags.all %} {{ tag }} {% endfor %}
-                                </div>
-                                <div class="Card-hover"><a class="Card-btn" href="#"><img
-                                        src="{% static 'assets/img/icons/card/cart.svg' %}" alt="cart.svg"/></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="Pagination">
-                    <div class="Pagination-ins"><a class="Pagination-element Pagination-element_prev" href="#"><img
-                            src="{% static 'assets/img/icons/prevPagination.svg' %}" alt="prevPagination.svg"/></a><a
-                            class="Pagination-element Pagination-element_current" href="#"><span
-                            class="Pagination-text">1</span></a><a class="Pagination-element" href="#"><span
-                            class="Pagination-text">2</span></a><a class="Pagination-element" href="#"><span
-                            class="Pagination-text">3</span></a><a class="Pagination-element Pagination-element_prev"
-                                                                   href="#"><img
-                            src="{% static 'assets/img/icons/nextPagination.svg' %}" alt="nextPagination.svg"/></a>
-                    </div>
-                </div>
-            </div>
+              </div>
+            </form>
+          </div>
         </div>
+        <div class="Section-columnSection">
+          <header class="Section-header">
+            <strong class="Section-title">Popular tags
+            </strong>
+          </header>
+          <div class="Section-columnContent">
+            <div class="buttons"><a class="btn btn_default btn_sm" href="#">Video</a><a
+                    class="btn btn_default btn_sm" href="#">Development</a><a class="btn btn_default btn_sm"
+                                                                              href="#">Gaming</a><a
+                    class="btn btn_default btn_sm" href="#">Asus</a><a class="btn btn_default btn_sm"
+                                                                       href="#">Development</a><a
+                    class="btn btn_default btn_sm" href="#">Video</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="Section-content">
+        <div class="Sort">
+          <div class="Sort-title">Сортировать по:
+          </div>
+          <div class="Sort-variants">
+            <a class="Sort-sortBy Sort-sortBy_dec" href="{{ request.path }}?s={{ request.GET.s }}&order=popular">Популярности </a><a
+                  class="Sort-sortBy" href="{{ request.path }}?s={{ request.GET.s }}&order=price">Цене</a>
+            <a class="Sort-sortBy" href="{{ request.path }}?s={{ request.GET.s }}&order=price">Отзывам</a><a
+                  class="Sort-sortBy Sort-sortBy_inc" href="{{ request.path }}?s={{ request.GET.s }}&order=recency">Новизне</a>
+          </div>
+        </div>
+        <div class="Cards">
+          {% for product in products %}
+          <div class="Card"><a class="Card-picture" href="{{ product.get_absolute_url }}">
+            <img style="max-height: 320px" src="{{ product.images.first.url }}" alt="card.jpg"/></a>
+            <div class="Card-content">
+              <strong class="Card-title"><a href="{{ product.get_absolute_url }}"> {{ product.name }}</a>
+              </strong>
+              <div class="Card-description">
+                <div class="Card-cost"><span class="Card-price">{{ product.commercial.price }} ₽</span>
+                </div>
+                <div class="Card-category"> {% for tag in product.tags.all %} {{ tag }} {% endfor %}
+                </div>
+                <div class="Card-hover"><a class="Card-btn" href="#"><img
+                        src="{% static 'assets/img/icons/card/cart.svg' %}" alt="cart.svg"/></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="Pagination">
+          <div class="Pagination-ins"><a class="Pagination-element Pagination-element_prev" href="#"><img
+                  src="{% static 'assets/img/icons/prevPagination.svg' %}" alt="prevPagination.svg"/></a><a
+                  class="Pagination-element Pagination-element_current" href="#"><span
+                  class="Pagination-text">1</span></a><a class="Pagination-element" href="#"><span
+                  class="Pagination-text">2</span></a><a class="Pagination-element" href="#"><span
+                  class="Pagination-text">3</span></a><a class="Pagination-element Pagination-element_prev"
+                                                         href="#"><img
+                  src="{% static 'assets/img/icons/nextPagination.svg' %}" alt="nextPagination.svg"/></a>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}

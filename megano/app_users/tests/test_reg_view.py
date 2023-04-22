@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class TestUserRegisterView(TestCase):
     def setUp(self) -> None:
         self.url = reverse('register')
@@ -16,7 +17,6 @@ class TestUserRegisterView(TestCase):
             'password2': self.password,
             'email': 'youngWishes@back.com',
         }
-
 
     def test_register_if_fields_are_valid(self):
         response = self.client.post(self.url, data=self.register_data)
