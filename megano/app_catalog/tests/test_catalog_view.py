@@ -25,7 +25,6 @@ class TestCatalogView(TestInitialUserDataMixin, TestCase):
         for i in range(1, 6):
             category = Category.objects.create(
                 name=f'Category name {i}',
-                description=f'Category description {i}',
                 image=b'',
                 is_public=True,
             )

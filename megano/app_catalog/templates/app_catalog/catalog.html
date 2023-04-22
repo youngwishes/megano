@@ -34,9 +34,9 @@ Catalog
               <div class="form-group">
                 <div class="range Section-columnRange">
                   <input class="range-line" id="price" name="price" type="text" data-type="double"
-                         data-min="100" data-max="500000"
+                         data-min="1000" data-max="100000"
                          data-from="{% if price_from %} {{ price_from }} {% else %} 1000 {% endif %}"
-                         data-to="{% if price_to %} {{ price_to }} {% else %} 500000 {% endif %}"/>
+                         data-to="{% if price_to %} {{ price_to }} {% else %} 100000 {% endif %}"/>
                   <div class="range-price">Price:&#32;
                     <div class="rangePrice">
                       <input type="submit">
@@ -45,7 +45,8 @@ Catalog
                 </div>
               </div>
               <div class="form-group">
-                <input class="form-input form-input_full" value="{% if name %} {{ name }} {% endif %}" id="name" name="name" type="text"
+                <input class="form-input form-input_full" value="{% if name %}{{ name }}{% endif %}" id="name"
+                       name="name" type="text"
                        placeholder="Название"/>
               </div>
               <div class="form-group">
@@ -93,17 +94,19 @@ Catalog
         <div class="Sort">
           <div class="Sort-title">Сортировать по:
           </div>
-          <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec" href="#">Популярности</a><a
-                  class="Sort-sortBy" href="#">Цене</a><a class="Sort-sortBy" href="#">Отзывам</a><a
-                  class="Sort-sortBy Sort-sortBy_inc" href="#">Новизне</a>
+          <div class="Sort-variants">
+            <a class="Sort-sortBy Sort-sortBy_dec" href="{{ request.path }}?s={{ request.GET.s }}&order=popular">Популярности </a><a
+                  class="Sort-sortBy" href="{{ request.path }}?s={{ request.GET.s }}&order=price">Цене</a>
+            <a class="Sort-sortBy" href="{{ request.path }}?s={{ request.GET.s }}&order=price">Отзывам</a><a
+                  class="Sort-sortBy Sort-sortBy_inc" href="{{ request.path }}?s={{ request.GET.s }}&order=recency">Новизне</a>
           </div>
         </div>
         <div class="Cards">
           {% for product in products %}
-          <div class="Card"><a class="Card-picture" href="{{ product.get_absolute_url }}"><img
-                  src="{{ product.images.first.url }}" alt="card.jpg"/></a>
+          <div class="Card"><a class="Card-picture" href="{{ product.get_absolute_url }}">
+            <img style="max-height: 320px" src="{{ product.images.first.url }}" alt="card.jpg"/></a>
             <div class="Card-content">
-              <strong class="Card-title"><a href="product.html"> {{ product.name }}</a>
+              <strong class="Card-title"><a href="{{ product.get_absolute_url }}"> {{ product.name }}</a>
               </strong>
               <div class="Card-description">
                 <div class="Card-cost"><span class="Card-price">{{ product.commercial.price }} ₽</span>

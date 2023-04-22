@@ -32,8 +32,8 @@ class ProductAdmin(admin.ModelAdmin):
     def get_html_photo(self, instance):
         if instance.images:
             return mark_safe(
-                f"<a href='{instance.images.first().image.url}'>"
-                f"<img src='{instance.images.first().image.url}' width=75>"
+                f"<a href='{instance.images.first().url}'>"
+                f"<img src='{instance.images.first().url}' width=75>"
                 f"</a>"
             )
 

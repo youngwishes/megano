@@ -43,6 +43,8 @@ class AbstractProductClass(models.Model):
 
     vendor_code = models.CharField(_("vendor code"), db_index=True, unique=True, max_length=512)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+
     class Meta:
         abstract = True
         verbose_name = _("Product")

@@ -62,7 +62,6 @@ class TestProductsDataMixin:
         for i in range(1, 3):
             Category.objects.create(
                 name=f'Category {i}',
-                description=f'Category description {i}',
                 image=b'',
                 is_public=True,
             )
@@ -72,7 +71,7 @@ class TestProductsDataMixin:
         for i in range(1, 5):
             random_img = random.choice(images)
             product = Product.objects.create(
-                name=f'Название № {i}',
+                name=random.choice([f'Название № {i}', f"Продукт № {i + 1}"]),
                 description=f'Идеальный товар для вашего пользования № {i}',
                 short_description=f'Короткое описание № {i}',
                 specifications=[
@@ -95,7 +94,6 @@ class TestProductsDataMixin:
                 is_active=True,
                 product=product,
             )
-
             product.categories.add(random.choice(categories))
 
             product.save()

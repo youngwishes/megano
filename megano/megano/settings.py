@@ -190,3 +190,14 @@ EMAIL_HOST_PASSWORD = "bkltlupadffqwges"
 EMAIL_USE_TLS = False
 
 EMAIL_USE_SSL = True
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': r'C:\PyCharmProjects\megano\python_django_diploma\django_cache',
+        'TIMEOUT': 1000,
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000
+        }
+    }
+}

@@ -96,7 +96,7 @@ Product
               </h2>
               <p>
                 {{ product.description }}
-              </p><img class="pict pict_right" src="{% static 'assets/img/content/home/bigGoods.png' %}"
+              </p><img class="pict pict_right" src="{{ product.images.first.url}}"
                        alt="bigGoods.png"/>
 
               {% for spec in product.specifications %}

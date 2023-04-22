@@ -1,24 +1,22 @@
 from django.db import models
+from django.core.cache import cache
 
 
 class ProductQuerySet(models.QuerySet):
-
     def price_range(self, **kwargs):
         price_from = kwargs['price_from']
         price_to = kwargs['price_to']
-
         if price_to and price_from:
             return self.filter(commercial__price__range=[price_from, price_to])
 
         return self
 
     def get_names(self, **kwargs):
-        name = kwargs['name']
-        queryset = self.filter(name__istartswith=name) | self.filter(name__iendswith=name)
-
+        search_field_value = kwargs['name'].split()
+        name = " ".join(search_field_value)
+        queryset = self.filter(name__istartswith=name.capitalize()) | self.filter(name__iendswith=name.capitalize())
         if len(name) > 2:
             queryset = queryset | self.filter(name__icontains=name)
-
         return queryset
 
     def in_stock(self, **kwargs):
@@ -26,7 +24,6 @@ class ProductQuerySet(models.QuerySet):
 
     def catalog_filter(self, params: dict):
         queryset = None
-
         for key, value in params.items():
             if hasattr(self, key):
                 attr = getattr(self, key)
